@@ -29,7 +29,13 @@
 
 ## Конфигурация
 
-В папке бота создайте (или отредактируйте) файл `.env`:
+В папке бота скопируйте шаблон `.env.example` в `.env` и подставьте свои значения:
+
+```powershell
+copy detailing_bot\.env.example detailing_bot\.env
+```
+
+Содержимое `.env`:
 
 ```env
 VK_TOKEN=сюда_ваш_ключ_доступа_сообщества
@@ -46,10 +52,10 @@ GROUP_ID=идентификатор_сообщества_без_минуса
 
 ```powershell
 # 1. Виртуальное окружение (создаётся один раз)
-python -m venv .venv
+python -m venv venv
 
 # 2. Активация окружения
-.venv\Scripts\Activate.ps1
+venv\Scripts\Activate.ps1
 
 # 3. Установка зависимостей (один раз)
 pip install -r detailing_bot\requirements.txt
@@ -62,8 +68,8 @@ python bot.py
 
 ```powershell
 cd detailing_bot
-python -m venv .venv
-.venv\Scripts\Activate.ps1
+python -m venv venv
+venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python bot.py
 ```
@@ -73,8 +79,8 @@ python bot.py
 Из корня проекта:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 pip install -r detailing_bot/requirements.txt
 python bot.py
 ```
@@ -83,8 +89,8 @@ python bot.py
 
 ```bash
 cd detailing_bot
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 python bot.py
 ```
@@ -130,17 +136,21 @@ Ctrl + C
 | `GROUP_ID` — ошибка при запуске | В `GROUP_ID` должно быть число без минуса |
 | Бот молчит | Проверьте, что Long Poll API включён и версия `5.131` |
 | Сообщения старше суток не удаляются у всех | ВК разрешает удалять «для всех» только свежие сообщения; старые бот удаляет у себя |
-| Ошибка при активации `.venv\Scripts\Activate.ps1` | Выполните `Set-ExecutionPolicy -Scope Process RemoteSigned` или запускайте через `cmd`: `.venv\Scripts\activate.bat` |
+| Ошибка при активации `venv\Scripts\Activate.ps1` | Выполните `Set-ExecutionPolicy -Scope Process RemoteSigned` или запускайте через `cmd`: `venv\Scripts\activate.bat` |
 
 ## Структура проекта
 
 ```text
-detailing_bot/
-├── bot.py           # основной код: обработчики, удаление сообщений, очистка истории
-├── keyboards.py     # клавиатуры (callback-кнопки)
-├── services.py      # каталог услуг и форматирование прайса
-├── config.py        # загрузка токена и ID группы из .env
-├── requirements.txt # зависимости (vkbottle, python-dotenv)
-├── .env             # секреты (не коммитить!)
-└── README.md        # этот файл
+LessonVPi04/
+├── bot.py               # лаунчер: запускает detailing_bot/bot.py
+├── prompt.md            # техзадание на разработку бота
+└── detailing_bot/
+    ├── bot.py           # основной код: обработчики, удаление сообщений, очистка истории
+    ├── keyboards.py     # клавиатуры (callback-кнопки)
+    ├── services.py      # каталог услуг и форматирование прайса
+    ├── config.py        # загрузка токена и ID группы из .env
+    ├── requirements.txt # зависимости (vkbottle, python-dotenv)
+    ├── .env             # секреты (не коммитить!)
+    ├── .env.example     # шаблон .env для клонирования репозитория
+    └── README.md        # этот файл
 ```
